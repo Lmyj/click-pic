@@ -1,0 +1,222 @@
+<!doctype html>
+<html class="no-js" lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="description" content="demo">
+    <meta name="keywords" content="demo">
+    <title>demo</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <!--<script>-->
+        <!--document.documentElement.style.fontSize = document.documentElement.clientWidth / 10 + 'px';-->
+    <!--</script>-->
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+</head>
+<style type="text/css">
+    body{
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        background: url("./img/bg.jpeg") no-repeat center;
+        background-size: 100%;
+    }
+    ul,li,p{
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .pull-left{
+        float: left;
+    }
+    .pull-right{
+        float: right;
+    }
+    .clearfix{
+        zoom:1;
+    }/*==for IE6/7 Maxthon2==*/
+    .clearfix :after {
+        clear:both;
+        content:'.';
+        display:block;
+        width: 0;
+        height: 0;
+        visibility:hidden;
+    }   /*==for FF/chrome/opera/IE8==*/
+    .hidden{
+        display: none;
+    }
+    .main-box{
+        width: 300px;
+        height: 300px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 2;
+        margin: auto;
+    }
+    .list-box{
+        width: 96px;
+        height: 96px;
+        margin: 0 6px 6px 0;
+        background-color: rgba(255, 255, 255, 0.3);
+        border-radius: 10px;
+    }
+    .list-box.no-margin-right{
+        margin-right: 0;
+    }
+    .list-box.no-margin-bottom{
+        margin-bottom: 0;
+    }
+    .change-background {
+        -webkit-animation: changeBackground .2s forwards 4;
+        -webkit-animation-fill-mode: none;
+        -ms-animation: changeBackground .2s forwards 4;
+        -ms-animation-fill-mode: none;
+        animation: changeBackground .2s forwards 4;
+        animation-fill-mode: none;
+    }
+    @-webkit-keyframes changeBackground {
+        from {
+            background-color: #FF0000;
+        }
+        to {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+    }
+    @-ms-keyframes changeBackground {
+        from {
+            background-color: #FF0000;
+        }
+        to {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+    }
+    @keyframes changeBackground {
+        from {
+            background-color: #FF0000;
+        }
+        to {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+    }
+    .mask-box{
+        background-color: rgba(0, 0, 0, 0.4);
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 6;
+        width: 100%;
+        height: 100vh;
+    }
+    .mask{
+        width: 300px;
+        height: 200px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 8;
+        margin: auto;
+        background-color: #fff;
+        text-align: center;
+        border-radius: 10px;
+        padding-top: 1px;
+    }
+    .tips-text{
+        font-size: 20px;
+        color: #5F9F9F;
+        line-height: 200px;
+    }
+    .again{
+        font-size: 20px;
+        color: #fff;
+        text-decoration: none;
+        display: inline-block;
+        padding: 2px 16px;
+        vertical-align: middle;
+        background-color: #5F9F9F;
+        border-radius: 6px;
+        margin-top: 80px;
+    }
+</style>
+<body scoll=no>
+<div class="mask-box hidden">
+    <div class="mask">
+        <a class="again" href="javascript:;" onclick="window.location.reload();">再来一次</a>
+    </div>
+</div>
+<div class="mask-box" id="tips-text-box">
+    <div class="mask">
+        <p class="tips-text">点击数量最多的色块儿</p>
+    </div>
+</div>
+    <ul class="main-box">
+        <li class="list-box pull-left"></li>
+        <li class="list-box pull-left"></li>
+        <li class="list-box no-margin-right pull-left"></li>
+        <li class="list-box pull-left"></li>
+        <li class="list-box pull-left"></li>
+        <li class="list-box no-margin-right pull-left"></li>
+        <li class="list-box no-margin-bottom pull-left"></li>
+        <li class="list-box no-margin-bottom pull-left"></li>
+        <li class="list-box no-margin-bottom no-margin-right pull-left"></li>
+    </ul>
+<script src="./libs/zepto.min.js"></script>
+    <script>
+        $(function(){
+            var allImgName = ['#9F5F9F', '#5C3317', '#5F9F9F', '#32cd32'];
+            var listDom = $('.list-box');
+            function getDomAttrNum(classValue) {
+                return ($('.'+classValue).length);
+            }
+            function removeShowClass(){
+                listDom.removeClass('is-this-dom');
+                for(var domIndex=0; domIndex<4; domIndex++){
+                    listDom.removeClass('show'+domIndex);
+                }
+            }
+            function makeNum(){
+                removeShowClass();
+                var domAttrLengthArray = [];
+                for(var i=0; i<listDom.length; i++){
+                    var _thisIndex = Math.floor( Math.random() * 4 );
+                    $(listDom[i]).css('backgroundColor', allImgName[_thisIndex]).addClass('show'+_thisIndex);
+                }
+                domAttrLengthArray[0] = getDomAttrNum('show0');
+                domAttrLengthArray[1] = getDomAttrNum('show1');
+                domAttrLengthArray[2] = getDomAttrNum('show2');
+                domAttrLengthArray[3] = getDomAttrNum('show3');
+                var maxNum = domAttrLengthArray[0];
+                for(var j=0; j<domAttrLengthArray.length; j++){
+                   if(Number(maxNum) < Number(domAttrLengthArray[j])) {
+                       maxNum = domAttrLengthArray[j];
+                   }
+                }
+                for(var k=0; k<domAttrLengthArray.length; k++){
+                    if(domAttrLengthArray[k] == maxNum){
+                        $('.show'+k).addClass('is-this-dom');
+                    }
+                }
+            }
+            makeNum();
+            $('.list-box').on('click', function(){
+                if($(this).hasClass('is-this-dom')){
+                    makeNum();
+                }else{
+                    $(this).addClass('change-background');
+                    setTimeout(function(){
+                        $('.mask-box').removeClass('hidden');
+                    }, 1200);
+                }
+            });
+            $('#tips-text-box').on('click', function(){
+                $(this).remove();
+            })
+        });
+    </script>
+</body>
+</html>
